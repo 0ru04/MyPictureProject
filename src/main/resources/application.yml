@@ -1,0 +1,74 @@
+# Tomcat访问端口和路经
+server:
+  port: 8123
+  servlet:
+    context-path: /api
+
+#上传缩略图开关
+picture:
+  thumbnail:
+    enable: true
+# 设置应用程序名称
+spring:
+  application:
+    name: ImageCloud-server
+
+  #数据库配置
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/imagecloud
+    username: root
+    password: 123456
+
+  profiles:
+    active: local
+
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+
+
+
+
+  #文件上传体积
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 12MB
+
+  #redis 配置
+  redis:
+    host: 192.168.59.10
+    port: 6379
+    timeout: 5000
+    password: 123321
+
+
+# 数据层读取配置
+mybatis-plus:
+  configuration:
+    #mybatis 配置
+    map-underscore-to-camel-case: true #开启 “下划线转驼峰” 的自动映射
+    # 仅在开发环境 进行SQL日志输出
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+    #全局的逻辑删除
+  global-config:
+    db-config:
+      logic-delete-field: isdelete # 全局逻辑删除的实体字段名
+      logic-delete-value: 1 # 逻辑已删除（默认为 1）
+      logic-not-delete-value: 0 # 逻辑未删除值 （默认为 0 ）
+
+# 接口文档配置
+knife4j:
+  enable: true
+  openapi:
+    title: Knife4j官方文档
+    version: 1.0
+    group:
+      default:
+        # 扫描规则
+        api-rule: package
+        # 扫描的具体资源（包路径）。
+        api-rule-resources:
+          - com.huahua.imagecloud.imagecloudserver.controller
